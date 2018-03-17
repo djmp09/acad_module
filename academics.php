@@ -154,7 +154,7 @@
 				$get_course = $_GET['course'];
 				$get_major = $_GET['major'];
 				$table = clean_course($get_course)."_".clean_major($get_major);
-				$sql = "SELECT $table.subjectcode, $table.subjectname, num_prof.num_of_prof FROM `$table`, num_prof WHERE $table.subjectcode = num_prof.subject_code";
+				$sql = "SELECT $table.subjectcode, $table.subjectname, num_prof.num_of_prof FROM `$table`, num_prof WHERE $table.subjectcode = num_prof.subject_code AND num_prof.assigned = 0";
 				$query = mysqli_query($con, $sql);
 				if($query){
 					if(mysqli_num_rows($query)>0){

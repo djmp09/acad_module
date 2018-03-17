@@ -12,7 +12,11 @@
 		$sql = "INSERT INTO subj_prof(subject_code, professors) VALUES ('$subjcode','$prof')";
 		$query = mysqli_query($con, $sql);
 		if($query){
-			header("Location: academics.php");
+			$sql = "UPDATE num_prof SET assigned = '1'";
+			$query = mysqli_query($con, $sql);
+			if($query){
+				header("Location: academics.php");	
+			}
 		}
 	}
 ?>
