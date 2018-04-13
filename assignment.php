@@ -1,7 +1,10 @@
 <?php
 	include("connect.php");
 	include("template.html");
-
+	session_start();
+	if(!isset($_SESSION['name'])){
+		header("location: index.php");
+	}
 	if(isset($_POST['submit2'])){
 		$num = $_POST['num'];
 		$subjcode = $_POST['subjcode'];
@@ -10,12 +13,16 @@
 			$prof .= $_POST['prof'][$x].",";
 		}
 		$sql = "INSERT INTO subj_prof(subject_code, professors) VALUES ('$subjcode','$prof')";
-		$query = mysqli_query($con, $sql);
+		$query = mysqli_query($connection, $sql);
 		if($query){
-			$sql = "UPDATE num_prof SET assigned = '1'";
-			$query = mysqli_query($con, $sql);
+			$sql = "UPDATE num_prof SET assigned = '1' WHERE subject_code = '$subjcode'";
+			$query = mysqli_query($connection, $sql);
 			if($query){
-				header("Location: academics.php");	
+				$sql = "UPDATE num_prof SET assigned = '1' WHERE subject_code = '$subjcode'";
+				$query = mysqli_query($connection, $sql);
+				if($query){
+					header("Location: academics.php");	
+				}
 			}
 		}
 	}
@@ -53,7 +60,7 @@
 	            }
 
 	            $sql = "SELECT subjectcode, subjectname, units FROM `$table` WHERE subjectcode = '$subjcode'";
-	            $query = mysqli_query($con, $sql);
+	            $query = mysqli_query($connection, $sql);
 	            if($query){
 	            	if(mysqli_num_rows($query)>0){
 	            		$row = mysqli_fetch_assoc($query);

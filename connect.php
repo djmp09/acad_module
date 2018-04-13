@@ -1,12 +1,11 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "acad";
-// Create connection
-$con = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-} 
+	$servername = "localhost";
+	$username = "root";
+	$password = "";
+	$dbname = "sms";
+	date_default_timezone_set("Asia/Manila");
+	$connection = new mysqli($servername, $username, $password, $dbname);
+	if ($connection->connect_error) {
+	    die("Connection failed: " . $connection->connect_error);
+	} 
 ?>
