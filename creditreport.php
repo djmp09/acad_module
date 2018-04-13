@@ -45,7 +45,7 @@
 	<form method="POST" action="creditreport.php">
 		<?php
 			if(isset($_POST['submit']) OR $week != ""){
-				$sql = "SELECT DISTINCT(week) FROM `creditedsubject` WHERE year = '$year' AND month = '$month'";
+				$sql = "SELECT DISTINCT(week) FROM `creditedsubject` WHERE year = '$year' AND month = '$month' AND week != 0";
 				$query = mysqli_query($connection, $sql);
 				if($query){
 					if(mysqli_num_rows($query)>0){

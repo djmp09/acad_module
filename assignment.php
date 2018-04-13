@@ -9,20 +9,45 @@
 		$num = $_POST['num'];
 		$subjcode = $_POST['subjcode'];
 		$prof = "";
+		$flag = TRUE;
 		for($x=0;$x<$num;$x++){
-			$prof .= $_POST['prof'][$x].",";
-		}
-		$sql = "INSERT INTO subj_prof(subject_code, professors) VALUES ('$subjcode','$prof')";
-		$query = mysqli_query($connection, $sql);
-		if($query){
-			$sql = "UPDATE num_prof SET assigned = '1' WHERE subject_code = '$subjcode'";
+			$fac = $_POST['prof'][$x];
+			$sql = "SELECT fac_num FROM faculty WHERE fac_num = '$fac'";
 			$query = mysqli_query($connection, $sql);
-			if($query){
-				$sql = "UPDATE num_prof SET assigned = '1' WHERE subject_code = '$subjcode'";
+			if(mysqli_num_rows($query)>0){
+				$prof .= $fac.",";
+			} else {
+				echo "<script> 
+					alert('INVALID FACULTY ID!'); 
+					window.location = 'academics.php';
+				</script>";
+				$flag = FALSE;
+			}
+		}
+		if($flag){
+			for($x=1;$x<=$num;$x++){
+				$fac = $_POST['prof'][$x-1];
+				$sql = "INSERT INTO subj_prof(subject_code, class_num, professors) VALUES ('$subjcode', '$x', '$fac')";
 				$query = mysqli_query($connection, $sql);
 				if($query){
-					header("Location: academics.php");	
+					$sql = "UPDATE num_prof SET assigned = '1' WHERE subject_code = '$subjcode'";
+					$query = mysqli_query($connection, $sql);
+					if($query){
+						$class = strtolower($subjcode)."_class".$x;
+						$sql = "UPDATE `$class` SET professor_id = '$fac'";
+						$query = mysqli_query($connection, $sql);
+						if(!$query){
+							$flag = FALSE;
+						} 
+					} else {
+						echo mysqli_error($connection);
+					}
+				} else {
+					echo mysqli_error($connection);
 				}
+			}
+			if($flag){
+				header("Location: academics.php");	
 			}
 		}
 	}
@@ -53,7 +78,7 @@
 	              for($x=0;$x<$num;$x++){
 	                echo "
 	                    var x = row.insertCell(".$x."+3);
-	                    x.innerHTML = 'Professor ' + ".($x+1).";
+	                    x.innerHTML = 'Class ' + ".($x+1).";
 	                ";
 	              }
 	              echo "</script>";
@@ -70,7 +95,7 @@
 	            		echo "<td>".$row['subjectname']."</td>";
 	            		echo "<td align='center'>".$row['units']."</td>";
 	            		for($x=0;$x<$num;$x++){
-	            			echo "<td><input type='text' name='prof[]' placeholder='Name'></td>";
+	            			echo "<td><input type='text' name='prof[]' placeholder='faculty id' required='true'></td>";
 	            		}
 	            		echo "<input type='hidden' name='num' value='".$num."'>";
 	            		echo "<input type='hidden' name='subjcode' value='".$subjcode."'>";

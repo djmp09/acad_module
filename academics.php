@@ -29,7 +29,7 @@
 		#assign_table {
 			overflow: auto;
 			height: 300px;
-			width: 475px;
+			width: 550px;
 		}
 
 		.modal {
@@ -110,7 +110,7 @@
 						<tr>
 							<th>Subject Code</th>
 							<th>Subject Name</th>
-							<th>Number</th>
+							<th>Number of Classes</th>
 							<th>Action</th>
 						</tr>
 				";
@@ -140,7 +140,7 @@
 			}
 		?>
 	</div>
-	<div id="assign_table" style="margin-top: -300px; margin-left: 60%;">
+	<div id="assign_table" style="margin-top: -300px; margin-left: 50%;">
 		<?php
 			if(isset($_GET['major'])){
 				echo "
@@ -151,7 +151,7 @@
 						<tr>
 							<th>Subject Code</th>
 							<th>Subject Name</th>
-							<th>Number</th>
+							<th>Number of Classes</th>
 							<th>Action</th>
 						</tr>
 				";
