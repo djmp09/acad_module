@@ -1,6 +1,10 @@
 <?php
 	include("connect.php");
 	include("functions.php");
+	session_start();
+	if(!isset($_SESSION['name'])){
+		header("location: ../Registrar_Module/Admission/login.php");
+	}
 	if(isset($_POST['submit'])){
 		$verdict = "";
 		$id = $_POST['id'];

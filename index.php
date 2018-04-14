@@ -21,7 +21,6 @@
 <html>
 <head>
 	<title>LOGIN</title>
-	<link rel="stylesheet" type="text/css" href="navbar.css">
 	<style>
 		#login {
 			margin: auto;
