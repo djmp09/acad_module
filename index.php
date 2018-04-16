@@ -9,7 +9,6 @@
 		if(mysqli_num_rows($query)>0){
 			$row = mysqli_fetch_assoc($query);
 			$_SESSION['name'] = $row['idnum'];
-			echo $_SESSION['name'];
 			header("Location: academics.php");
 		} else {
 			echo "ERROR";
@@ -38,13 +37,26 @@
 		    margin-left: -20px;
 		    padding-right: 30px;
 		}
+
+		#logo {
+			top: 0;
+			left: 0;
+			position: fixed;
+		}
+
+		#tag {
+			font-size: 70px;
+			color: white;
+			margin-left: 100px;
+			padding-top: 10px;
+		}
 	</style>
 </head>
 <body>	
 	<div id="wrapper">    
 	    <ul>
+	    	<a href="index.php"><img src="logo.png" id="logo" width="100px"></a>
 	        <label id="tag">CAP COLLEGE FOUNDATION, INC.</label>
-	        <a href="index.php"><img src="logo.png" id="logo"></a>
 	    </ul>
 	</div>
 	<div id="login">
