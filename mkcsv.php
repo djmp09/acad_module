@@ -15,6 +15,6 @@
 		    fputcsv($fp, $fields);
 		}
 		fclose($fp);
-		header("Location: report.php");
+		header("Location: report.php?download=ready");
 	}
 ?>

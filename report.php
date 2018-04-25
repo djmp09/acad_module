@@ -52,7 +52,12 @@
 			 	echo '<input type="hidden" name="list[]" value="'. $value. '">';
 			}
 		?>
-		<input type="submit" name="submit" value="DOWNLOAD">
+		<input type="submit" name="submit" value="Create CSV">
 	</form>
+	<?php
+		if(isset($_GET['download'])){
+			echo "<button><a href='csv/elearning_csv/".date("Y-m-d").".csv' download>Download </a></button>";
+		}
+	?>
 </body>
 </html>
