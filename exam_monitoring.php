@@ -3,7 +3,7 @@
 	include("functions.php");
 	session_start();
 	if(!isset($_SESSION['name'])){
-		header("location: index.php");
+		header("location: ../Registrar_Module/Admission/login.php");
 	}
 	$refnum = "";
 	if(isset($_POST['give'])){

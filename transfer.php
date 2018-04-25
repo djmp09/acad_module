@@ -18,10 +18,10 @@
 		}
 		$sql = "UPDATE `creditedsubject` SET verdict = '$verdict', year = '$year', month = '$month', week = '$week' WHERE id = '$id'";
 		$query = mysqli_query($connection, $sql);
-		if($query){
+		if(!$query){
 			echo "
 			<script>
-				alert('".$_POST['submit']."D');
+				alert('".mysqli_error($connection)."');
 			</script>
 			";
 		}

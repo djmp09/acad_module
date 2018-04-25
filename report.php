@@ -3,7 +3,7 @@
 	include("connect.php");
 	include("template.html");
 	if(!isset($_SESSION['name'])){
-		header("location: index.php");
+		header("location: ../Registrar_Module/Admission/login.php");
 	}
 ?>
 <!DOCTYPE html>

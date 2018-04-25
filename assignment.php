@@ -3,7 +3,7 @@
 	include("template.html");
 	session_start();
 	if(!isset($_SESSION['name'])){
-		header("location: index.php");
+		header("location: ../Registrar_Module/Admission/login.php");
 	}
 	if(isset($_POST['submit2'])){
 		$num = $_POST['num'];
