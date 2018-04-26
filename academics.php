@@ -171,6 +171,7 @@
 							echo "<input type='hidden' name='subjcode' value='".$row['subjectcode']."'>";
 							echo "<input type='hidden' name='num' value='".$row['num_of_prof']."'>";
 							echo "<input type='hidden' name='table' value='".$table."'>";
+							echo "<input type='hidden' name='course' value='".$get_course."'>";
 							echo "<td><input type='submit' name='submit' value='Assign'></td>";
 							echo "</tr></form>";
 						}

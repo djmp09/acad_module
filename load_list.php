@@ -20,7 +20,7 @@
 			}
 			if(isset($_GET['load'])){
 				$prof = $_GET['load'];
-				$sql = "SELECT course, subject, section FROM teachersubject WHERE fac_num = '$prof'";
+				$sql = "SELECT course, subject_code, class_num FROM subj_prof WHERE professors = '$prof'";
 				$query = mysqli_query($connection, $sql);
 				if($query){
 					if(mysqli_num_rows($query)>0){
@@ -28,11 +28,11 @@
 						while($rows = mysqli_fetch_assoc($query)){
 							echo "<tr>";
 							echo "<td>".$rows['course']."</td>";
-							echo "<td>".strtolower($rows['subject'])."</td>";
-							echo "<td>".$rows['section']."</td>";
+							echo "<td>".strtolower($rows['subject_code'])."</td>";
+							echo "<td>".$rows['class_num']."</td>";
 							echo "<td class='rev'><input onclick='show(".$count.");' type='button' value='View Class'></td>";
 							echo"</tr>";
-							echo "<input type='hidden' id='class".$count."' value='".strtolower($rows['subject'])."_class".$rows['section']."'";
+							echo "<input type='hidden' id='class".$count."' value='".strtolower($rows['subject_code'])."_class".$rows['class_num']."'";
 							$count++;
 						}
 					}
