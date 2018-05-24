@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	include("connect.php");
-	include("template.html");
+	include("templaterep.html");
 	if(!isset($_SESSION['name'])){
 		header("location: ../Registrar_Module/Admission/login.php");
 	}

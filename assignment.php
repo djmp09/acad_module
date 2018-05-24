@@ -9,6 +9,7 @@
 		$num = $_POST['num'];
 		$subjcode = $_POST['subjcode'];
 		$course = $_POST['course'];
+		$table = $_POST['table'];
 		$prof = "";
 		$flag = TRUE;
 		for($x=0;$x<$num;$x++){
@@ -28,7 +29,7 @@
 		if($flag){
 			for($x=1;$x<=$num;$x++){
 				$fac = $_POST['prof'][$x-1];
-				$sql = "INSERT INTO subj_prof(course, subject_code, class_num, professors) VALUES ('$course', '$subjcode', '$x', '$fac')";
+				$sql = "INSERT INTO subj_prof(course, subject_code, class_num, professors) VALUES ('$table', '$subjcode', '$x', '$fac')";
 				$query = mysqli_query($connection, $sql);
 				if($query){
 					$sql = "UPDATE num_prof SET assigned = '1' WHERE subject_code = '$subjcode'";
@@ -48,7 +49,7 @@
 				}
 			}
 			if($flag){
-				header("Location: academics.php");	
+				header("Location: academics.php");
 			}
 		}
 	}
@@ -102,6 +103,7 @@
 	            		echo "<input type='hidden' name='num' value='".$num."'>";
 	            		echo "<input type='hidden' name='subjcode' value='".$subjcode."'>";
 	            		echo "<input type='hidden' name='course' value='".$course."'>";
+	            		echo "<input type='hidden' name='table' value='".$table."'>";
 	            		echo "<td><input type='submit' name='submit2' value='Submit'></td>";
 	            		echo "</tr></form>";
 	            	}

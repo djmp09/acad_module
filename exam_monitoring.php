@@ -50,7 +50,7 @@
 	<?php include("templatemon.html"); ?>
 	<div id="body1">
 	<input type="button" value="Give" onclick="show(this.value);">
-	<input type="button" value="Take" onclick="show(this.value);">
+	<input type="button" value="Receive" onclick="show(this.value);">
 	<input type="button" value="View" onclick="show(this.value);">
 	<div id="Give">
 		<form method="POST" action="exam_monitoring.php">
@@ -73,7 +73,7 @@
 		</form>
 		<?php if($refnum != ""){echo "REFERENCE NUMBER: ".$refnum;} ?>
 	</div>
-	<div id="Take">
+	<div id="Receive">
 		<form method="POST" action="exam_monitoring.php">
 			<table border="1">
 				<tr>
@@ -130,7 +130,7 @@
 <script>
 	function show(x){
 		document.getElementById("Give").style.display = "none";
-		document.getElementById("Take").style.display = "none";
+		document.getElementById("Receive").style.display = "none";
 		document.getElementById("View").style.display = "none";
 		document.getElementById(x).style.display = "block";
 	}

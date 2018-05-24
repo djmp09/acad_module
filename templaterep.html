@@ -1,0 +1,119 @@
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Archivo+Black">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:600">
+<head>
+<style>
+    body {
+        overflow-x: hidden;
+    }
+    #navbar {
+        margin-left: -8px;
+        margin-top: -10px;
+        width: 110%;
+        height: 105px;
+        background-color: #800000;
+        overflow: hidden;
+        position: fixed;
+    }
+    #logo {
+        left: 5px;
+        position: fixed;
+    }
+
+    #logout {
+        right: 5px;
+        width: auto;
+        position: fixed;
+    }
+
+    #special {
+        margin-left: 100px;
+    }
+
+    #tag {
+        display: block;
+        color: white;
+    }
+
+    #navbar ul:not(#logo) {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #navbar li {
+        float: left;
+    }
+
+    #navbar li a:not(#logo) {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        margin-top: 20px;
+        font-size: 30px;
+
+    }
+
+    /* Change the link color to #111 (black) on hover */
+    #navbar li a:not(#tag):hover {
+        background-color: #111;
+    }
+
+    #hori {
+        width: 110%;
+        height: 50px;
+        background-color: #800000;
+        overflow: hidden;
+        position: fixed;
+        margin-top: 90px;
+        margin-left: -8px;
+    }
+
+    #hori ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #hori li {
+        float: left;
+    }
+
+    #hori li a:not(#logo) {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 16px;
+        text-decoration: none;
+        font-size: 20px;
+
+    }
+
+    /* Change the link color to #111 (black) on hover */
+    #hori li a:not(#tag):hover {
+        background-color: #111;
+    }
+
+    #spacer {
+        margin-top: 100px;
+    }
+</style>
+</head>
+<body> 
+<div id="navbar">
+    <ul>
+        <a href="index.php" id="logo"><img src="logo.png" width="100px"></a>
+        <li id="special"><a href="academics.php">Academics</a></li>
+        <li><a href="report.php">Report</a></li>
+        <li><a href="monitor_students.php">Monitoring</a></li>
+        <li><a id="tag">CAP COLLEGE FOUNDATION, INC.</a></li>
+        <a href="logout.php"><img src="logout.png" id="logout" width="60px" height="60px" style="margin-top:20px;"></a>
+    </ul>
+</div>
+<br><br><br><br><br><br>
+</body>
+</html>
