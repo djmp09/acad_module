@@ -2,6 +2,7 @@
 	include("connect.php");
 	include("functions.php");
 	session_start();
+	$common_subs = array();
 	if(!isset($_SESSION['name'])){
 		header("location: ../Registrar_Module/Admission/login.php");
 	}
@@ -72,7 +73,19 @@
 	</style>
 </head>
 <body>
-	<?php include("template.html"); ?>
+	<?php 
+		include("template.html"); 
+		$assigned_subs = array();
+		$sql = "SELECT subject_code FROM `num_prof`";
+		$query = mysqli_query($connection, $sql);
+		if($query){
+			if(mysqli_num_rows($query)>0){
+				while($rows = mysqli_fetch_assoc($query)){
+					$assigned_subs[] = $rows['subject_code'];
+				}
+			}
+		}
+	?>
 	<div id="body1">
 		<table border="1">
 			<tr>
@@ -106,73 +119,91 @@
 				} else {
 					echo "ERROR: ".mysqli_error($connection);
 				}
-				if(!isset($_GET['major'])){
-					$sql = "SELECT subjectcode FROM `$tables[0]`";
-					$query = mysqli_query($connection, $sql);
-					$ctr = 0;
-					$common_subs = array();
-					if($query){
-						if(mysqli_num_rows($query)>0){
-							while($row = mysqli_fetch_assoc($query)){
-								$subj_code = $row['subjectcode'];
-								for($x=1;$x<count($tables);$x++){
-									$sql2 = "SELECT subjectcode FROM `$tables[$x]` WHERE subjectcode = '$subj_code'";
-									$query2 = mysqli_query($connection, $sql2);
-									if($query2 && mysqli_num_rows($query2)>0){
-										$ctr += 1;
-										continue;
-									} else {
-										$ctr = 0;
-										break;
+				$sql = "SELECT subjectcode FROM `$tables[0]`";
+				$query = mysqli_query($connection, $sql);
+				$ctr = 0;
+				if($query){
+					if(mysqli_num_rows($query)>0){
+						while($row = mysqli_fetch_assoc($query)){
+							$subj_code = $row['subjectcode'];
+							for($x=1;$x<count($tables);$x++){
+								$sql2 = "SELECT subjectcode FROM `$tables[$x]` WHERE subjectcode = '$subj_code'";
+								$query2 = mysqli_query($connection, $sql2);
+								if($query2 && mysqli_num_rows($query2)>0){
+									$ctr += 1;
+									continue;
+								} else {
+									$ctr = 0;
+									break;
+								}
+							}
+							if($ctr == 4){
+								$common_subs[] = $subj_code;
+								$ctr = 0;
+							}
+						}
+						echo "<table border='1'>
+								<tr>
+									<th colspan='4'>COMMON SUBJECTS:</th>
+								</tr>
+								<tr>
+									<th>Subject Code</th>
+									<th>Subject Name</th>
+									<th>Number of Classes</th>
+									<th>Action</th>
+								</tr>";
+
+						$z = 1;
+						$num = 10;
+						$curr_url2 = substr($_SERVER['REQUEST_URI'], 0, 83);
+						$pages = (int)(count($common_subs)/$num);
+						$remainder = count($common_subs)%$num;
+						$last_page = 0;
+						if($remainder != 0){
+							$pages += 1;
+							$last_page = $pages;
+						}
+						$page = 1;
+						if(isset($_GET['page'])){
+							$page = $_GET['page'];	
+						}
+						$max = $page*$num;
+						$min = $max - $num;
+						if($page != $last_page){
+							for($x=$min;$x<$max;$x++) {
+								$sql = "SELECT subjectname FROM `$tables[0]` WHERE subjectcode = '$common_subs[$x]'";
+								$query = mysqli_query($connection, $sql);
+								if($query){
+									$row = mysqli_fetch_assoc($query);
+									if(!in_array($common_subs[$x], $assigned_subs)){
+										echo "<form method='POST' action='academics.php'>";
+										echo "<tr>";
+										echo "<td>".$common_subs[$x]."</td>";
+										echo "<td>".$row['subjectname']."</td>";
+										echo "<td><input type='number' name='num' required='true'></td>";
+										echo "<input type='hidden' name='subjcode' value='".$common_subs[$x]."'>";
+										echo "<input type='hidden' name='url' value='".$_SERVER['REQUEST_URI']."'>";
+										echo "<input type='hidden' name='table' value='GEBSBA'>";
+										echo "<td><input type='submit' name='submit' value='submit'></td>";
+										echo "</tr></form>";
 									}
 								}
-								if($ctr == 4){
-									$common_subs[] = $subj_code;
-									$ctr = 0;
-								}
 							}
-							echo "<table border='1'>
-									<tr>
-										<th>COMMON SUBJECTS:</th>
-									</tr>";
-							$z = 1;
-							$num = 10;
-							$curr_url2 = substr($_SERVER['REQUEST_URI'], 0, 83);
-							$pages = (int)(count($common_subs)/$num);
-							$remainder = count($common_subs)%$num;
-							$last_page = 0;
-							if($remainder != 0){
-								$pages += 1;
-								$last_page = $pages;
+						} else {
+							$count = count($common_subs) - $remainder;
+							for($x=$count;$x<count($common_subs);$x++) {
+								echo "<tr>";
+								echo "<td>".$common_subs[$x]."</td>";
+								echo "</tr>";
 							}
-							$page = 1;
-							if(isset($_GET['page'])){
-								$page = $_GET['page'];	
-							}
-							$max = $page*$num;
-							$min = $max - $num;
-							if($page != $last_page){
-								for($x=$min;$x<$max;$x++) {
-									echo "<tr>";
-									echo "<td>".$common_subs[$x].".</td>";
-									echo "</tr>";
-								}
-							} else {
-								$count = count($common_subs) - $remainder;
-								for($x=$count;$x<count($common_subs);$x++) {
-									echo "<tr>";
-									echo "<td>".$common_subs[$x].".</td>";
-									echo "</tr>";
-								}
-							}
-							echo "<tr><td colspan='4' align='center'>Pages:";
-							for($x=1;$x<=$pages;$x++){
-								echo "&nbsp;&nbsp;&nbsp;&nbsp;";
-								echo "<a href='".$curr_url2."&page=".$x."'>".$x."</a>";
-							}
-							echo "</td></tr>";
-							echo "</table>";
 						}
+						echo "<tr><td colspan='4' align='center'>Pages:";
+						for($x=1;$x<=$pages;$x++){
+							echo "&nbsp;&nbsp;&nbsp;&nbsp;";
+							echo "<a href='".$curr_url2."&page=".$x."'>".$x."</a>";
+						}
+						echo "</td></tr>";
+						echo "</table>";
 					}
 				}
 			}
@@ -220,16 +251,18 @@
 				if($query){
 					if(mysqli_num_rows($query)>0){
 						while($row = mysqli_fetch_assoc($query)){
-							echo "<form method='POST' action='academics.php'>";
-							echo "<tr>";
-							echo "<td>".$row['subjectcode']."</td>";
-							echo "<td>".$row['subjectname']."</td>";
-							echo "<td><input type='number' name='num' required='true'></td>";
-							echo "<input type='hidden' name='subjcode' value='".$row['subjectcode']."'>";
-							echo "<input type='hidden' name='url' value='".$_SERVER['REQUEST_URI']."'>";
-							echo "<input type='hidden' name='table' value='".$table."'>";
-							echo "<td><input type='submit' name='submit' value='submit'></td>";
-							echo "</tr></form>";
+							if(!in_array($row['subjectcode'], $common_subs)){
+								echo "<form method='POST' action='academics.php'>";
+								echo "<tr>";
+								echo "<td>".$row['subjectcode']."</td>";
+								echo "<td>".$row['subjectname']."</td>";
+								echo "<td><input type='number' name='num' required='true'></td>";
+								echo "<input type='hidden' name='subjcode' value='".$row['subjectcode']."'>";
+								echo "<input type='hidden' name='url' value='".$_SERVER['REQUEST_URI']."'>";
+								echo "<input type='hidden' name='table' value='".$table."'>";
+								echo "<td><input type='submit' name='submit' value='submit'></td>";
+								echo "</tr></form>";
+							}
 						}
 					}
 					echo "</table>";
@@ -257,7 +290,7 @@
 				$get_course = $_GET['course'];
 				$get_major = $_GET['major'];
 				$table = clean_course($get_course)."_".clean_major($get_major);
-				$sql = "SELECT $table.subjectcode, $table.subjectname, num_prof.num_of_prof FROM `$table`, num_prof WHERE $table.subjectcode = num_prof.subject_code AND num_prof.assigned = 0 AND num_prof.course = '$table'";
+				$sql = "SELECT $table.subjectcode, $table.subjectname, num_prof.num_of_prof FROM `$table`, num_prof WHERE $table.subjectcode = num_prof.subject_code AND num_prof.assigned = 0 AND num_prof.course = '$table' OR num_prof.course = 'GEBSBA'";
 				$query = mysqli_query($connection, $sql);
 				if($query){
 					if(mysqli_num_rows($query)>0){
