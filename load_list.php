@@ -16,7 +16,7 @@
 			include("connect.php");
 			session_start();
 			if(!isset($_SESSION['name'])){
-				header("location: ../Registrar_Module/Admission/login.php");
+				header("location: ../MAINWEB/index.html");
 			}
 			if(isset($_GET['load'])){
 				$prof = $_GET['load'];
